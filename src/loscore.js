@@ -95,9 +95,9 @@ class LoScore {
     //if there is no callback is provided
     if (iterator === undefined) {
       for (const element of collection) {
-        if (element === {}) {
-          return;
-        } else if (element === false) {
+        if (element === 1 || element === {}) {
+          return true;
+        } else if (element == false && element != undefined) {
           return false;
         } else {
           return true;
@@ -109,7 +109,9 @@ class LoScore {
       let result = this.reduce(
         collection,
         (accumulator, item) => {
-          if (accumulator === false || item === undefined) {
+          if (item === 1 || item === {}) {
+            return true;
+          } else if (accumulator === false || item === undefined) {
             return false;
           } else {
             return iterator(item);
@@ -124,7 +126,7 @@ class LoScore {
   /**
   | OBJECTS
   |~~~~~~~~~~
-  * */
+  **/
 
   extend(...obj) {
     // YOUR CODE HERE
@@ -160,6 +162,7 @@ class LoScore {
 
   memoize(func) {
     // YOUR CODE HERE
+    // another solution but failed
     // let isInvoked = false;
     // let thisArg = false;
     // let value;
