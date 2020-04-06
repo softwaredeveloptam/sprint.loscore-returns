@@ -144,9 +144,8 @@ class LoScore {
   * */
 
   once(func) {
-    // store the function name and its previous value
     let database = [];
-    // store function name as a key and previous value as value
+
     return function() {
       for (const set of database) {
         if (set["fn"] !== null) {
@@ -161,10 +160,57 @@ class LoScore {
 
   memoize(func) {
     // YOUR CODE HERE
+    // let isInvoked = false;
+    // let thisArg = false;
+    // let value;
+    // return function(arg) {
+    //   if(!isInvoked){
+    //     isInvoked = true;
+    //     thisArg = true;
+    //     value = func(arg);
+    //     return value;
+    //   } else {
+    //       if(!thisArg){
+    //         thisArg = true;
+    //         value = func(arg);
+    //         return value;
+    //       } else {
+    //           return value;
+    //         }
+    //     }
+    // }
+
+    let database = [];
+
+    return function(para) {
+      for (const set of database) {
+        if (set["fn"] == func) {
+          if (set["pa"] == para) return set["value"];
+        }
+      }
+
+      let newSet = { fn: func, pa: para, value: func(para) };
+      database.push(newSet);
+      return newSet["value"];
+    };
   }
 
   invoke(collection, functionOrKey) {
     // YOUR CODE HERE
+
+    let result = [];
+
+    if (typeof functionOrKey === "string") {
+      this.each(collection, function(item) {
+        result.push(collection[0][functionOrKey].apply(item));
+      });
+    } else {
+      this.each(collection, function(item) {
+        result.push(functionOrKey.apply(item));
+      });
+    }
+
+    return result;
   }
 
   /**
