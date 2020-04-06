@@ -94,7 +94,7 @@ describe("LoScore", () => {
             you have a VERY good reason. Mutating inputs makes it a lot harder
             to debug your code and find bugs and it can also just be downright confusing
             to read!
-          */
+        */
 
         expect(input).to.eql([1, 2, 3, 4, 5]);
       });
@@ -487,7 +487,7 @@ describe("LoScore", () => {
       });
     });
 
-    describe("every", () => {
+    describe.only("every", () => {
       beforeEach(() => {
         spy(_, "reduce");
       });
@@ -728,13 +728,19 @@ describe("LoScore", () => {
       let array, arrayOfStrings;
 
       beforeEach(() => {
-        array = [[5, 1, 7], [3, 2, 1]];
+        array = [
+          [5, 1, 7],
+          [3, 2, 1],
+        ];
         arrayOfStrings = ["yan", "kani"];
       });
 
       it("should be able to invoke methods on values and return in an array", () => {
         const sorted = _.invoke(array, "sort");
-        expect(sorted).to.eql([[1, 5, 7], [1, 2, 3]]);
+        expect(sorted).to.eql([
+          [1, 5, 7],
+          [1, 2, 3],
+        ]);
         expect(_.invoke(arrayOfStrings, "toUpperCase")).to.eql(["YAN", "KANI"]);
       });
 

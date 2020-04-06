@@ -9,7 +9,28 @@ class LoScore {
   |~~~~~~~~~~
   * */
   uniq(array) {
-    // YOUR CODE HERE
+    let copy = [];
+    for (let element of array) {
+      copy.push(element);
+    }
+
+    for (let i = 0; i < array.length; i++) {
+      for (let y = i + 1; y < copy.length; y++) {
+        if (copy[y] === array[i]) {
+          copy[y] = "duplicate";
+        }
+      }
+    }
+
+    let result = [];
+
+    for (const element of copy) {
+      if (element != "duplicate") {
+        result.push(element);
+      }
+    }
+
+    return result;
   }
 
   /**
@@ -30,7 +51,9 @@ class LoScore {
   }
 
   map(collection, iteratee) {
-    // YOUR CODE HERE
+    let array = [];
+    this.each(collection, (val) => array.push(iteratee(val)));
+    return array;
   }
 
   filter(collection, test) {
@@ -39,14 +62,71 @@ class LoScore {
     return result;
   }
 
-  reject(collection, test) {}
-
-  reduce(collection, iterator, accumulator) {
-    // YOUR CODE HERE
+  reject(collection, test) {
+    let result = [];
+    this.filter(collection, (val) => {
+      if (!test(val)) result.push(val);
+    });
+    return result;
   }
 
-  every() {
-    // YOUR CODE HERE
+  //   `_.reduce` - reduces a collection to a single value by repetitively calling the`iterator(accumulator, item)` for each item.
+  //   The accumulator should be the return value of the previous iterator call.
+
+  // If no starting value is passed, the first element in the collection should be used as the accumulator.
+
+  // ```js
+  // const numbers = [1, 2, 3];
+  // const accumulate = (result, int) => {
+  //   return result + int;// };
+  // const sum = _.reduce(numbers, accumulate(total, number), 0); // ---> 6
+  reduce(collection, iterator, accumulator) {
+    let total;
+    if (typeof accumulator == "undefined") {
+      total = collection[0];
+      let copy = [];
+      for (let i = 1; i < collection.length; i++) {
+        copy.push(collection[i]);
+      }
+      this.each(copy, function(item, index) {
+        total = iterator(total, item);
+      });
+    } else {
+      total = accumulator;
+      this.each(collection, function(item, index) {
+        total = iterator(total, item);
+      });
+    }
+
+    return total;
+  }
+
+  every(collection, iterator) {
+    //if there is no callback is provided
+    if (iterator === undefined) {
+      for (const element of collection) {
+        if (element === {}) {
+          return;
+        } else {
+          return true;
+        }
+      }
+    }
+    // if the callback is provided
+    else {
+      let result = this.reduce(
+        collection,
+        (accumulator, item) => {
+          if (accumulator === false || item === undefined) {
+            return false;
+          } else {
+            return iterator(item);
+          }
+        },
+        true
+      );
+      return result;
+    }
   }
 
   /**
