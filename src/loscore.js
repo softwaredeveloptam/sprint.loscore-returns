@@ -70,16 +70,6 @@ class LoScore {
     return result;
   }
 
-  //   `_.reduce` - reduces a collection to a single value by repetitively calling the`iterator(accumulator, item)` for each item.
-  //   The accumulator should be the return value of the previous iterator call.
-
-  // If no starting value is passed, the first element in the collection should be used as the accumulator.
-
-  // ```js
-  // const numbers = [1, 2, 3];
-  // const accumulate = (result, int) => {
-  //   return result + int;// };
-  // const sum = _.reduce(numbers, accumulate(total, number), 0); // ---> 6
   reduce(collection, iterator, accumulator) {
     let total;
     if (typeof accumulator == "undefined") {
@@ -107,6 +97,8 @@ class LoScore {
       for (const element of collection) {
         if (element === {}) {
           return;
+        } else if (element === false) {
+          return false;
         } else {
           return true;
         }
@@ -133,8 +125,17 @@ class LoScore {
   | OBJECTS
   |~~~~~~~~~~
   * */
-  extend(obj) {
+
+  extend(...obj) {
     // YOUR CODE HERE
+    let array = [...obj];
+    // put all the things to array[0] which is the main obj
+    for (let i = 1; i < array.length; i++) {
+      this.each(array[i], function(item, key) {
+        array[0][key] = item;
+      });
+    }
+    return array[0];
   }
 
   /**
@@ -143,7 +144,19 @@ class LoScore {
   * */
 
   once(func) {
-    // YOUR CODE HERE
+    // store the function name and its previous value
+    let database = [];
+    // store function name as a key and previous value as value
+    return function() {
+      for (const set of database) {
+        if (set["fn"] !== null) {
+          return set["value"];
+        }
+      }
+      let newSet = { fn: func, value: func() };
+      database.push(newSet);
+      return newSet["value"];
+    };
   }
 
   memoize(func) {
