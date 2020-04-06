@@ -10,7 +10,7 @@ class LoScore {
   * */
   uniq(array) {
     const copy = [];
-    for (let element of array) {
+    for (const element of array) {
       copy.push(element);
     }
 
@@ -152,7 +152,7 @@ class LoScore {
           return set.value;
         }
       }
-      let newSet = { fn: func, value: func() };
+      const newSet = { fn: func, value: func() };
       database.push(newSet);
       return newSet.value;
     };
