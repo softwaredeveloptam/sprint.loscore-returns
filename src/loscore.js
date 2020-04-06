@@ -9,7 +9,7 @@ class LoScore {
   |~~~~~~~~~~
   * */
   uniq(array) {
-    let copy = [];
+    const copy = [];
     for (let element of array) {
       copy.push(element);
     }
@@ -22,7 +22,7 @@ class LoScore {
       }
     }
 
-    let result = [];
+    const result = [];
 
     for (const element of copy) {
       if (element !== "duplicate") {
@@ -51,7 +51,7 @@ class LoScore {
   }
 
   map(collection, iteratee) {
-    let array = [];
+    const array = [];
     this.each(collection, (val) => array.push(iteratee(val)));
     return array;
   }
@@ -63,7 +63,7 @@ class LoScore {
   }
 
   reject(collection, test) {
-    let result = [];
+    const result = [];
     this.filter(collection, (val) => {
       if (!test(val)) result.push(val);
     });
@@ -74,16 +74,16 @@ class LoScore {
     let total;
     if (typeof accumulator == "undefined") {
       total = collection[0];
-      let copy = [];
+      const copy = [];
       for (let i = 1; i < collection.length; i++) {
         copy.push(collection[i]);
       }
-      this.each(copy, function(item, index) {
+      this.each(copy, (item) => {
         total = iterator(total, item);
       });
     } else {
       total = accumulator;
-      this.each(collection, function(item, index) {
+      this.each(collection, (item) => {
         total = iterator(total, item);
       });
     }
@@ -99,23 +99,21 @@ class LoScore {
           return true;
         } else if (element === false && element !== undefined) {
           return false;
-        } else {
-          return true;
         }
+        return true;
       }
     }
     // if the callback is provided
     else {
-      let result = this.reduce(
+      const result = this.reduce(
         collection,
         (accumulator, item) => {
           if (item === 1 || item === {}) {
             return true;
           } else if (accumulator === false || item === undefined) {
             return false;
-          } else {
-            return iterator(item);
           }
+          return iterator(item);
         },
         true
       );
@@ -130,10 +128,10 @@ class LoScore {
 
   extend(...obj) {
     // YOUR CODE HERE
-    let array = [...obj];
+    const array = [...obj];
     // put all the things to array[0] which is the main obj
     for (let i = 1; i < array.length; i++) {
-      this.each(array[i], function(item, key) {
+      this.each(array[i], (item, key) => {
         array[0][key] = item;
       });
     }
@@ -146,17 +144,17 @@ class LoScore {
   * */
 
   once(func) {
-    let database = [];
+    const database = [];
 
     return function() {
       for (const set of database) {
-        if (set["fn"] !== null) {
-          return set["value"];
+        if (set.fn !== null) {
+          return set.value;
         }
       }
       let newSet = { fn: func, value: func() };
       database.push(newSet);
-      return newSet["value"];
+      return newSet.value;
     };
   }
 
@@ -183,32 +181,32 @@ class LoScore {
     //     }
     // }
 
-    let database = [];
+    const database = [];
 
     return function(para) {
       for (const set of database) {
-        if (set["fn"] === func) {
-          if (set["pa"] === para) return set["value"];
+        if (set.fn === func) {
+          if (set.pa === para) return set.value;
         }
       }
 
-      let newSet = { fn: func, pa: para, value: func(para) };
+      const newSet = { fn: func, pa: para, value: func(para) };
       database.push(newSet);
-      return newSet["value"];
+      return newSet.value;
     };
   }
 
   invoke(collection, functionOrKey) {
     // YOUR CODE HERE
 
-    let result = [];
+    const result = [];
 
     if (typeof functionOrKey === "string") {
-      this.each(collection, function(item) {
+      this.each(collection, (item) => {
         result.push(collection[0][functionOrKey].apply(item));
       });
     } else {
-      this.each(collection, function(item) {
+      this.each(collection, (item) => {
         result.push(functionOrKey.apply(item));
       });
     }
