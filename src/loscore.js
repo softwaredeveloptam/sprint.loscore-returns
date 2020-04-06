@@ -25,7 +25,7 @@ class LoScore {
     let result = [];
 
     for (const element of copy) {
-      if (element != "duplicate") {
+      if (element !== "duplicate") {
         result.push(element);
       }
     }
@@ -97,7 +97,7 @@ class LoScore {
       for (const element of collection) {
         if (element === 1 || element === {}) {
           return true;
-        } else if (element == false && element != undefined) {
+        } else if (element === false && element !== undefined) {
           return false;
         } else {
           return true;
@@ -187,8 +187,8 @@ class LoScore {
 
     return function(para) {
       for (const set of database) {
-        if (set["fn"] == func) {
-          if (set["pa"] == para) return set["value"];
+        if (set["fn"] === func) {
+          if (set["pa"] === para) return set["value"];
         }
       }
 
